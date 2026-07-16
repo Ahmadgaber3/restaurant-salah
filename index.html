@@ -17,8 +17,8 @@
     <style>
         /* الألوان الرسمية المحدثة بالتباين المطلق */
         :root {
-            --bg: #f5f2eb; /* خلفية كريمي فخمة بين الأبيض والبيج */
-            --card-bg: #ffffff; /* الكروت باللون الأبيض الصافي ليحدث فرق درجات بارز وممتاز */
+            --bg: #f5f2eb; 
+            --card-bg: #ffffff; 
             --main-text: #1e293b; 
             --desc-text: #64748b; 
             --brand-orange: #e65100; 
@@ -387,7 +387,6 @@
             width: 100%;
         }
 
-        /* تعديل حاوية الصورة لإنهاء مشكلة التداخل والتصفح الفجائي */
         .card-large-image-wrapper {
             width: 100%;
             overflow: hidden;
@@ -470,7 +469,7 @@
         .dev-credit { font-size: 0.72rem; color: var(--desc-text); font-weight: 700; }
         .dev-credit a { color: var(--brand-orange); text-decoration: none; display: block; margin-top: 3px; }
 
-        /* السلة والـ Modals */
+        /* Modals */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; justify-content: center; align-items: flex-end; backdrop-filter: blur(4px); }
         .modal-content { background: var(--white); width: 100%; max-width: 480px; padding: 16px 20px; border-radius: 22px 22px 0 0; max-height: 82vh; overflow-y: auto; color: var(--main-text); box-shadow: 0 -5px 25px rgba(0,0,0,0.25); }
 
@@ -850,7 +849,8 @@
                     return `
                     <div class="food-card-large" id="card-${item.id}">
                         <div class="card-large-image-wrapper">
-                            <img class="item-img-large" src="${IMAGES_PATH}${item.name}.jpg" onerror="this.onerror=null; this.src='${IMAGES_PATH}default.jpg';">
+                            <!-- تم ربط حدث onerror ذكي هنا لإظهار اللوجو البديل في حال تعطل ملف الصورة على GitHub -->
+                            <img class="item-img-large" src="${IMAGES_PATH}${item.name}.jpg" onerror="this.onerror=null; this.src='./images/logooo.png';">
                         </div>
                         <div class="card-large-details">
                             <span class="food-name-large">${item.name}</span>
@@ -949,7 +949,7 @@
         }
 
         function removeFromCart(idx) { cart.splice(idx, 1); updateCart(); if(cart.length === 0) toggleCart(false); }
-        function toggleCart(s) { const modal = document.getElementById('cartModal'); if(!modal) return; if (s) { modal.style.display = 'flex'; history.pushState({ cartOpen: true }, ""); } else { modal.style.display = 'none'; } }
+        function toggleCart(s) { const modal = document.getElementById('cartModal'); if(!modal) return; if (s) { modal.style.display = 'flex'; history.pushState({ cartOpen: open }, ""); } else { modal.style.display = 'none'; } }
         window.addEventListener('popstate', function () { const modal = document.getElementById('cartModal'); if (modal && modal.style.display === 'flex') { modal.style.display = 'none'; } });
 
         function sendToWA() {
@@ -970,3 +970,4 @@
     </script>
 </body>
 </html>
+
