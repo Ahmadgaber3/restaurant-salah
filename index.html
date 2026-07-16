@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,6 +48,14 @@
             --input-bg: #0f172a;
         }
 
+        /* تأثير انتقالي ناعم جداً عند عكس الإضاءة */
+        body, header, main, footer, div, span, button, input {
+            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                        color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                        border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.4s ease;
+        }
+
         /* تطبيق متغيرات الألوان على العناصر الهامة بالوضع الليلي */
         [data-theme="dark"] .sticky-wrapper { background: var(--header-bg); }
         [data-theme="dark"] .category-nav { background: var(--card-bg); border-bottom-color: var(--border-color); }
@@ -60,7 +68,6 @@
             box-sizing: border-box; 
             font-family: 'Cairo', sans-serif; 
             -webkit-tap-highlight-color: transparent; 
-            transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease; 
         }
         
         body { 
@@ -429,6 +436,7 @@
     <div class="sticky-wrapper">
         <header>
             <div class="header-right-actions">
+                <!-- تم ربط الزر بحدث toggleTheme مباشرة وبسرعة تامة -->
                 <button class="theme-trigger" onclick="toggleTheme()" id="themeBtn" title="تغيير المظهر">
                     <span id="themeIcon">🌙</span>
                 </button>
@@ -513,11 +521,37 @@
         let selectedOrderType = 'دليفري'; 
         let deferredPrompt = null;
 
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        updateThemeUI(savedTheme);
+        // دالة تحديث شكل أيقونة زرار الإضاءة (الشمس والهلال)
+        function updateThemeUI(theme) {
+            const icon = document.getElementById('themeIcon');
+            if (icon) {
+                icon.innerText = theme === 'dark' ? '☀️' : '🌙';
+            }
+        }
+
+        // دالة تبديل وعكس الإضاءة الذكية لتعمل فوراً 100%
+        function toggleTheme() {
+            // التحقق من الثيم الحالي
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            // عكس الإضاءة
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            // تطبيق الثيم فوراً على الـ html والـ body معاً لمنع أي تهنيج
+            document.documentElement.setAttribute('data-theme', newTheme);
+            document.body.setAttribute('data-theme', newTheme);
+            
+            // حفظ التفضيل بالمتصفح
+            localStorage.setItem('theme', newTheme);
+            updateThemeUI(newTheme);
+        }
 
         window.addEventListener('DOMContentLoaded', () => {
+            // قراءة وتطبيق الإضاءة المحفوظة فور تحميل المستند لمنع الوميض
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeUI(savedTheme);
+
             loadMenu();
 
             if ('serviceWorker' in navigator) {
@@ -566,19 +600,6 @@
                 deferredPrompt = null;
             });
         });
-
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeUI(newTheme);
-        }
-
-        function updateThemeUI(theme) {
-            const icon = document.getElementById('themeIcon');
-            if (icon) icon.innerText = theme === 'dark' ? '☀️' : '🌙';
-        }
 
         function setOrderType(type) {
             selectedOrderType = type;
