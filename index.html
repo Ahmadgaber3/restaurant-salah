@@ -79,10 +79,10 @@
             overflow-x: hidden; 
         }
 
-        /* ================= شاشة التحميل ================= */
+        /* ================= شاشة التحميل: تم تعديل الخلفية والنصوص للتناسق الفاتح ================= */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000000; 
+            background: #f5f2eb; /* درجة راقية جداً ومميزة تجمع بين الأبيض والبيج */
             z-index: 9999;
             display: flex; justify-content: center; align-items: center;
             transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
@@ -109,11 +109,12 @@
             100% { transform: scale(1); opacity: 1; }
         }
         
-        .loader-text { font-weight: 800; color: #ffffff; font-size: 1.4rem; margin-bottom: 6px; text-shadow: 0 3px 8px rgba(0,0,0,0.8); animation: fadeInUp 0.8s ease-out forwards 0.3s; opacity: 0; }
-        .loader-slogan { font-size: 0.85rem; font-weight: 700; line-height: 1.4; color: var(--brand-orange); text-shadow: 0 2px 4px rgba(0,0,0,0.6); animation: fadeInUp 0.8s ease-out forwards 0.5s; opacity: 0; }
+        /* تعديل ألوان النصوص لظهورها بوضوح فوق الخلفية الفاتحة الجديدة */
+        .loader-text { font-weight: 800; color: #1e293b; font-size: 1.4rem; margin-bottom: 6px; animation: fadeInUp 0.8s ease-out forwards 0.3s; opacity: 0; }
+        .loader-slogan { font-size: 0.85rem; font-weight: 700; line-height: 1.4; color: var(--brand-orange); animation: fadeInUp 0.8s ease-out forwards 0.5s; opacity: 0; }
         @keyframes fadeInUp { to { transform: translateY(0); opacity: 1; } }
-        .loader-counter { font-size: 1.1rem; font-weight: 800; color: #ffffff; margin-top: 15px; font-variant-numeric: tabular-nums; }
-        .loading-bar { width: 130px; height: 4px; background: rgba(255, 255, 255, 0.1); margin: 10px auto 0 auto; border-radius: 10px; overflow: hidden; }
+        .loader-counter { font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-top: 15px; font-variant-numeric: tabular-nums; }
+        .loading-bar { width: 130px; height: 4px; background: rgba(30, 41, 59, 0.12); margin: 10px auto 0 auto; border-radius: 10px; overflow: hidden; }
         .loading-bar span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--brand-orange) 0%, #f97316 100%); box-shadow: 0 0 8px var(--brand-orange); border-radius: 10px; }
         .splash-hidden { transform: translateY(-100%); pointer-events: none; }
 
@@ -255,16 +256,16 @@
             font-size: 0.72rem;
         }
 
-        /* 1. كارت الصنف الصغير (تفريغ المساحة البيضاء الفاضية تماماً وإجراء السويتش العكسي للأسفل) */
+        /* 1. كارت الصنف الصغير (اطلب يسار - السعر يمين) */
         .food-card { 
             background: var(--white); 
             border-radius: 18px; 
             display: flex; 
             flex-direction: column; 
-            padding: 8px 12px; /* تقليص الحواف الرأسية لتوفير الفراغ */
+            padding: 8px 12px; 
             box-shadow: var(--card-shadow);
             border: 1px solid var(--border-color);
-            gap: 4px; /* لتقريب المسافة الرأسية في المنتصف */
+            gap: 4px; 
             position: relative;
         }
 
@@ -276,7 +277,6 @@
             width: 100%;
         }
 
-        /* تصغير الصورة لـ 75px لإنهاء مشكلة المساحة الفاضية الطولية فوراً */
         .card-image-wrapper {
             width: 75px; 
             height: 75px;
@@ -353,12 +353,10 @@
             margin-top: 2px;
         }
 
-        /* عمل السويتش المطلوب: زر اطلب أقصى اليسار (الشمال) في الكارت الصغير */
         .food-card .btn-wrapper {
             order: 2;
         }
 
-        /* عمل السويتش المطلوب: السعر أقصى اليمين في الكارت الصغير */
         .food-card .price-container-leftish {
             order: 1;
             padding-right: 2px;
@@ -498,7 +496,7 @@
 </head>
 <body>
 
-    <!-- شاشة التحميل السوداء باللوجو المربع الكبير والكامل 100% -->
+    <!-- شاشة التحميل: تم تعديل الخلفية والنصوص للتناسق الفاتح -->
     <div id="splash-screen">
         <div class="loader-content">
             <div class="loader-logo-final"></div>
