@@ -112,7 +112,7 @@
         .loader-text { font-weight: 800; color: #1e293b; font-size: 1.4rem; margin-bottom: 6px; animation: fadeInUp 0.8s ease-out forwards 0.3s; opacity: 0; }
         .loader-slogan { font-size: 0.85rem; font-weight: 700; line-height: 1.4; color: var(--brand-orange); animation: fadeInUp 0.8s ease-out forwards 0.5s; opacity: 0; }
         @keyframes fadeInUp { to { transform: translateY(0); opacity: 1; } }
-        .loader-counter { font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-top: 15px; font-numeric: tabular-nums; }
+        .loader-counter { font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-top: 15px; font-variant-numeric: tabular-nums; }
         .loading-bar { width: 130px; height: 4px; background: rgba(30, 41, 59, 0.12); margin: 10px auto 0 auto; border-radius: 10px; overflow: hidden; }
         .loading-bar span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--brand-orange) 0%, #f97316 100%); box-shadow: 0 0 8px var(--brand-orange); border-radius: 10px; }
         .splash-hidden { transform: translateY(-100%); pointer-events: none; }
@@ -387,17 +387,19 @@
             width: 100%;
         }
 
+        /* تعديل حاوية الصورة لإنهاء مشكلة التداخل والتصفح الفجائي */
         .card-large-image-wrapper {
             width: 100%;
-            aspect-ratio: 600 / 270; /* تم التعديل بدقة لأبعاد 600 في 270 هنا بناء على طلبك */
             overflow: hidden;
             background: transparent;
             padding: 10px 12px 4px 12px; 
         }
 
+        /* جلب أبعاد الـ aspect-ratio هنا مباشرة على عنصر الصورة لمنع الاختفاء الفجائي */
         .card-large-image-wrapper .item-img-large {
             width: 100%;
-            height: 100%;
+            display: block;
+            aspect-ratio: 600 / 270; 
             object-fit: cover;
             border-radius: 12px; 
         }
