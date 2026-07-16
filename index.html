@@ -32,35 +32,38 @@
             --input-bg: #f1f5f9;
         }
 
-        /* الوضع الليلي المتناسق */
-        [data-theme="dark"] {
-            --bg: #0f172a; 
-            --card-bg: #1e293b; 
-            --main-text: #f8fafc;
-            --desc-text: #94a3b8;
-            --brand-orange: #f97316; 
-            --button-gray: #334155; 
-            --white: #1e293b; 
-            --glass: rgba(30, 41, 59, 0.95);
-            --header-bg: #1e293b;
-            --card-shadow: 0 6px 18px rgba(0,0,0,0.3);
-            --border-color: #334155;
-            --input-bg: #0f172a;
+        /* الوضع الليلي المتناسق المباشر */
+        [data-theme="dark"], body[data-theme="dark"] {
+            --bg: #0f172a !important; 
+            --card-bg: #1e293b !important; 
+            --main-text: #f8fafc !important;
+            --desc-text: #94a3b8 !important;
+            --brand-orange: #f97316 !important; 
+            --button-gray: #334155 !important; 
+            --white: #1e293b !important; 
+            --glass: rgba(30, 41, 59, 0.95) !important;
+            --header-bg: #1e293b !important;
+            --card-shadow: 0 6px 18px rgba(0,0,0,0.3) !important;
+            --border-color: #334155 !important;
+            --input-bg: #0f172a !important;
         }
 
         /* تأثير انتقالي ناعم جداً عند عكس الإضاءة */
         body, header, main, footer, div, span, button, input {
-            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                        color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                        border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                        box-shadow 0.4s ease;
+            transition: background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
+                        color 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
+                        border-color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.35s ease;
         }
 
         /* تطبيق متغيرات الألوان على العناصر الهامة بالوضع الليلي */
         [data-theme="dark"] .sticky-wrapper { background: var(--header-bg); }
         [data-theme="dark"] .category-nav { background: var(--card-bg); border-bottom-color: var(--border-color); }
         [data-theme="dark"] .restaurant-footer { background: var(--card-bg); border-top-color: var(--border-color); }
-        [data-theme="dark"] .footer-address-bar { background: var(--button-gray); border-color: var(--border-color); }
+        [data-theme="dark"] .footer-address-bar, [data-theme="dark"] .header-address-bar { background: var(--button-gray); border-color: var(--border-color); }
+        [data-theme="dark"] .food-card { background: var(--card-bg); border-color: var(--border-color); }
+        [data-theme="dark"] .size-option { background: var(--button-gray); color: var(--main-text); }
+        [data-theme="dark"] .size-option.selected { background: var(--brand-orange); color: #ffffff; }
 
         * { 
             margin: 0; 
@@ -117,7 +120,7 @@
 
         /* ================= الهيدر الداخلي ================= */
         .sticky-wrapper { position: sticky; top: 0; z-index: 1000; background: var(--header-bg); box-shadow: 0 1px 10px rgba(0,0,0,0.03); }
-        header { display: flex; flex-direction: column; align-items: center; padding: 14px 0; position: relative; }
+        header { display: flex; flex-direction: column; align-items: center; padding: 14px 0 6px 0; position: relative; }
         .header-top { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; }
         
         .header-logo-final { 
@@ -150,6 +153,25 @@
         }
         .badge { position: absolute; top: -3px; right: -3px; background: var(--brand-orange); color: #ffffff; font-size: 8px; font-weight: 800; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--white); transform: scale(0); }
         .badge.show { transform: scale(1); }
+
+        /* بنر العنوان فوق تحت اللوجو مباشرة */
+        .header-address-bar {
+            font-size: 0.78rem; 
+            font-weight: 700;
+            color: var(--main-text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            margin: 10px 16px 4px 16px;
+            padding: 8px 12px;
+            background: #eceef1;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            align-self: stretch;
+            text-align: center;
+        }
+        .header-address-label { color: #3b82f6; font-weight: 800; }
 
         /* ================= ستايل بانر التثبيت المنبثق التلقائي ================= */
         .install-banner-popup {
@@ -436,7 +458,6 @@
     <div class="sticky-wrapper">
         <header>
             <div class="header-right-actions">
-                <!-- تم ربط الزر بحدث toggleTheme مباشرة وبسرعة تامة -->
                 <button class="theme-trigger" onclick="toggleTheme()" id="themeBtn" title="تغيير المظهر">
                     <span id="themeIcon">🌙</span>
                 </button>
@@ -445,6 +466,12 @@
             <!-- حاوية لوجو الهيدر المربعة الكبيرة والمطابقة لملف الصورة الأصلي -->
             <div class="header-top">
                 <div class="header-logo-final"></div>
+            </div>
+
+            <!-- بنر العنوان مكرر في الأعلى مباشرة تحت اللوجو ومطابق لنسخته السفلية تماماً -->
+            <div class="header-address-bar">
+                <span class="header-address-label">📍 العنوان:</span>
+                <span class="header-address-text">500 شارع بورسعيد - باب الشعرية - القاهرة</span>
             </div>
 
             <div class="header-left-actions">
@@ -529,14 +556,12 @@
             }
         }
 
-        // دالة تبديل وعكس الإضاءة الذكية لتعمل فوراً 100%
+        // دالة تبديل وعكس الإضاءة الذكية والآمنة
         function toggleTheme() {
-            // التحقق من الثيم الحالي
             const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-            // عكس الإضاءة
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             
-            // تطبيق الثيم فوراً على الـ html والـ body معاً لمنع أي تهنيج
+            // تطبيق الثيم فوراً على الـ html والـ body
             document.documentElement.setAttribute('data-theme', newTheme);
             document.body.setAttribute('data-theme', newTheme);
             
@@ -546,7 +571,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            // قراءة وتطبيق الإضاءة المحفوظة فور تحميل المستند لمنع الوميض
+            // قراءة وتطبيق الإضاءة المحفوظة فور تحميل واجهة الصفحة بالكامل
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             document.body.setAttribute('data-theme', savedTheme);
