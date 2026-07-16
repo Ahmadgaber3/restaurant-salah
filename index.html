@@ -17,8 +17,8 @@
     <style>
         /* الألوان الرسمية المحدثة بالتباين المطلق */
         :root {
-            --bg: #e2e5e9; 
-            --card-bg: #ffffff; 
+            --bg: #f5f2eb; /* تم تعديل الخلفية العامة لتصبح نفس درجة الداخلة (كريمي بين الأبيض والبيج) */
+            --card-bg: #ffffff; /* الكروت باللون الأبيض الصافي ليحدث فرق درجات بارز وممتاز */
             --main-text: #1e293b; 
             --desc-text: #64748b; 
             --brand-orange: #e65100; 
@@ -79,7 +79,7 @@
             overflow-x: hidden; 
         }
 
-        /* ================= شاشة التحميل: تم تعديل الخلفية والنصوص للتناسق الفاتح ================= */
+        /* ================= شاشة التحميل ================= */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #f5f2eb; /* درجة راقية جداً ومميزة تجمع بين الأبيض والبيج */
@@ -109,7 +109,6 @@
             100% { transform: scale(1); opacity: 1; }
         }
         
-        /* تعديل ألوان النصوص لظهورها بوضوح فوق الخلفية الفاتحة الجديدة */
         .loader-text { font-weight: 800; color: #1e293b; font-size: 1.4rem; margin-bottom: 6px; animation: fadeInUp 0.8s ease-out forwards 0.3s; opacity: 0; }
         .loader-slogan { font-size: 0.85rem; font-weight: 700; line-height: 1.4; color: var(--brand-orange); animation: fadeInUp 0.8s ease-out forwards 0.5s; opacity: 0; }
         @keyframes fadeInUp { to { transform: translateY(0); opacity: 1; } }
@@ -608,7 +607,7 @@
     </div>
 
     <script>
-        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSdu_bKzrKDYqf5Jw_T8F9FbIDEm8y2svpN9fgpAiw7_lP_69kYuBJpgLgWmRzzr0DYHivSvk9gJ-rI/pub?output=csv';
+        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSXCqY642DBEjbe9IbxVstD6ueQPO6ljsLzOnmtfRTDW_eztEERkfAKIUcKAHhedFR66G6-fwjZvbpE/pub?output=csv';
         const IMAGES_PATH = "./images/"; 
         let menuData = [], cart = [];
         let currentTotal = 0; 
