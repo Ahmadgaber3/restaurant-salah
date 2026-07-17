@@ -460,6 +460,28 @@
         }
         .cart-trigger.shake { animation: shake 0.5s ease-in-out; }
 
+        /* ================= خانة تثبيت التطبيق السفلية الجديدة ================= */
+        .footer-install-box {
+            background: linear-gradient(135deg, var(--brand-orange) 0%, #f97316 100%);
+            border-radius: 16px;
+            padding: 16px;
+            margin: 15px auto 20px auto;
+            max-width: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: 0 6px 20px rgba(230, 81, 0, 0.2);
+            color: #ffffff;
+            text-align: right;
+        }
+        .footer-install-info { display: flex; align-items: center; gap: 10px; }
+        .footer-install-logo { width: 44px; height: 44px; background-image: url('./images/logooo.png'); background-size: contain; background-repeat: no-repeat; background-position: center; border-radius: 8px; background-color: #ffffff; }
+        .footer-install-title { font-size: 0.88rem; font-weight: 800; }
+        .footer-install-desc { font-size: 0.72rem; font-weight: 600; opacity: 0.9; margin-top: 1px; }
+        .footer-install-btn { background: #ffffff; color: var(--brand-orange); border: none; padding: 8px 16px; border-radius: 10px; font-size: 0.8rem; font-weight: 900; cursor: pointer; white-space: nowrap; box-shadow: 0 4px 10px rgba(0,0,0,0.08); transition: transform 0.2s; }
+        .footer-install-btn:active { transform: scale(0.95); }
+
         /* =================================================================================== */
 
         .restaurant-footer { padding: 25px 15px; text-align: center; background: var(--white); border-top: 1px solid var(--border-color); margin-top: 25px; padding-bottom: 35px; }
@@ -582,6 +604,19 @@
             <a href="tel:0225926228">0225926228</a>
             <a href="tel:0225926227">0225926227</a>
         </div>
+
+        <!-- ================= خانة تثبيت التطبيق السفلية المضافة بالكامل ================= -->
+        <div class="footer-install-box" id="footerInstallContainer">
+            <div class="footer-install-info">
+                <div class="footer-install-logo"></div>
+                <div>
+                    <div class="footer-install-title">تطبيق كباب صلاح الرسمي</div>
+                    <div class="footer-install-desc">تصفح المنيو واطلب أسرع من الشاشة الرئيسية</div>
+                </div>
+            </div>
+            <button class="footer-install-btn" id="footerInstallBtn">تثبيت التطبيق</button>
+        </div>
+
         <p class="footer-rights">جميع الحقوق محفوظة لمحلات كباب صلاح © 2026</p>
         <div class="dev-credit">
             Designed by eng / Ahmed Gaber shehata
@@ -652,59 +687,82 @@
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeUI(savedTheme);
 
-            loadMenu();
+            // تفعيل عداد وهمي مرن وضامن يشتغل حتى لو الصور فيها أزمات تحميل
+            let fakeProgress = 0;
+            const progressTimer = setInterval(() => {
+                if (fakeProgress < 85) {
+                    fakeProgress += Math.floor(Math.random() * 12) + 5;
+                    if(fakeProgress > 85) fakeProgress = 85;
+                    updateProgressUI(fakeProgress);
+                }
+            }, 100);
 
-            // تسجيل الـ Service Worker من المسار الحالي الصحيح
+            loadMenu().then(() => {
+                clearInterval(progressTimer);
+                updateProgressUI(100);
+                setTimeout(() => {
+                    const splash = document.getElementById('splash-screen');
+                    if(splash) splash.classList.add('splash-hidden');
+                }, 200);
+            }).catch(() => {
+                clearInterval(progressTimer);
+                updateProgressUI(100);
+                const splash = document.getElementById('splash-screen');
+                if(splash) splash.classList.add('splash-hidden');
+            });
+
+            // تسجيل الـ Service Worker
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('./sw.js')
                 .then(reg => console.log('تم تسجيل الـ Service Worker بنجاح!', reg))
                 .catch(err => console.log('فشل تسجيل الـ Service Worker:', err));
             }
 
-            // لقط حدث التثبيت الرسمي بشكل آمن لمنع التجاهل من المتصفح
+            // التقاط واجهة التثبيت للتطبيق (PWA)
             window.addEventListener('beforeinstallprompt', (e) => {
                 console.log('حدث التثبيت التلقائي جاهز للتفعيل.');
                 e.preventDefault();
                 deferredPrompt = e;
+                
+                // إظهار البانر العلوي المنبثق
                 const bannerPopup = document.getElementById('automaticInstallBanner');
-                if (bannerPopup) {
-                    bannerPopup.classList.add('show-banner');
-                }
+                if (bannerPopup) bannerPopup.classList.add('show-banner');
+                
+                // إظهار الخانة السفلية للتثبيت في الفوتر
+                const footerInstall = document.getElementById('footerInstallContainer');
+                if (footerInstall) footerInstall.style.display = 'flex';
             });
 
-            const actionInstallBtn = document.getElementById('actionInstallBtn');
-            if (actionInstallBtn) {
-                actionInstallBtn.addEventListener('click', async () => {
-                    if (!deferredPrompt) {
-                        console.log('طلب التثبيت غير متاح، قد يكون التطبيق مثبتاً بالفعل.');
-                        return;
-                    }
-                    // إطلاق نافذة تثبيت الأبليكشن الرسمية للمستخدم
-                    deferredPrompt.prompt(); 
-                    const { outcome } = await deferredPrompt.userChoice;
-                    console.log(`استجابة المستخدم للتثبيت: ${outcome}`);
-                    
-                    deferredPrompt = null;
-                    const bannerPopup = document.getElementById('automaticInstallBanner');
-                    if (bannerPopup) bannerPopup.classList.remove('show-banner');
-                });
+            // دالة تشغيل التثبيت الفعلي
+            async function executeInstall() {
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt(); 
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`استجابة المستخدم للتثبيت: ${outcome}`);
+                deferredPrompt = null;
+                hideInstallUI();
             }
 
-            const actionCloseBtn = document.getElementById('actionCloseBtn');
-            if (actionCloseBtn) {
-                actionCloseBtn.addEventListener('click', () => {
-                    const bannerPopup = document.getElementById('automaticInstallBanner');
-                    if (bannerPopup) bannerPopup.classList.remove('show-banner');
-                });
-            }
+            // ربط أزرار التثبيت بالوظيفة
+            document.getElementById('actionInstallBtn')?.addEventListener('click', executeInstall);
+            document.getElementById('footerInstallBtn')?.addEventListener('click', executeInstall);
+
+            document.getElementById('actionCloseBtn')?.addEventListener('click', () => {
+                document.getElementById('automaticInstallBanner')?.classList.remove('show-banner');
+            });
 
             window.addEventListener('appinstalled', () => {
-                console.log('تم تثبيت تطبيق كباب صلاح بنجاح وتحويله لأبليكشن!');
-                const bannerPopup = document.getElementById('automaticInstallBanner');
-                if (bannerPopup) bannerPopup.classList.remove('show-banner');
+                console.log('تم تثبيت تطبيق كباب صلاح بنجاح!');
                 deferredPrompt = null;
+                hideInstallUI();
             });
         });
+
+        function hideInstallUI() {
+            document.getElementById('automaticInstallBanner')?.classList.remove('show-banner');
+            const footerInstall = document.getElementById('footerInstallContainer');
+            if (footerInstall) footerInstall.style.display = 'none';
+        }
 
         function setOrderType(type) {
             selectedOrderType = type;
@@ -739,20 +797,6 @@
             return parseInt(cleanStr, 10) || 0;
         }
 
-        function preloadAllImages(imageUrls, callback) {
-            if (imageUrls.length === 0) { updateProgressUI(100); callback(); return; }
-            let loadedCount = 0; const totalImages = imageUrls.length;
-            function imageLoadedOrFailed() {
-                loadedCount++; const percentage = Math.floor((loadedCount / totalImages) * 100);
-                updateProgressUI(percentage);
-                if (loadedCount === totalImages) { setTimeout(callback, 300); }
-            }
-            imageUrls.forEach(url => {
-                const img = new Image(); img.src = url;
-                img.onload = imageLoadedOrFailed; img.onerror = imageLoadedOrFailed; 
-            });
-        }
-
         function updateProgressUI(percentage) {
             const counterEl = document.getElementById('loadCounter');
             const progressEl = document.getElementById('loadProgress');
@@ -762,7 +806,6 @@
 
         async function loadMenu() {
             const timestamp = Date.now();
-            updateProgressUI(5); 
             try {
                 const res = await fetch(`${csvUrl}&t=${timestamp}`, { cache: "no-store" });
                 if (!res.ok) throw new Error();
@@ -798,24 +841,10 @@
                     };
                 }).filter(Boolean);
 
-                const imagesToPreload = ['./images/logooo.png'];
-                menuData.forEach(item => {
-                    const catImg = `${IMAGES_PATH}${item.category}.jpg`;
-                    const foodImg = `${IMAGES_PATH}${item.name}.jpg`;
-                    if (!imagesToPreload.includes(catImg)) imagesToPreload.push(catImg);
-                    if (!imagesToPreload.includes(foodImg)) imagesToPreload.push(foodImg);
-                });
-
-                preloadAllImages(imagesToPreload, () => {
-                    if(menuData.length > 0) { renderNav(); } 
-                    else { document.getElementById('menuList').innerHTML = '<p style="text-align:center; padding:20px;">عذراً، لا توجد بيانات متاحة حالياً.</p>'; }
-                    const splash = document.getElementById('splash-screen');
-                    if(splash) splash.classList.add('splash-hidden');
-                });
+                if(menuData.length > 0) { renderNav(); } 
+                else { document.getElementById('menuList').innerHTML = '<p style="text-align:center; padding:20px;">عذراً، لا توجد بيانات متاحة حالياً.</p>'; }
             } catch (e) {
-                updateProgressUI(100);
-                const splash = document.getElementById('splash-screen');
-                if(splash) splash.classList.add('splash-hidden');
+                console.error("فشل في تحميل المنيو من الاكسيل.");
             }
         }
 
@@ -933,7 +962,7 @@
         }
 
         function triggerAddToCart(e, btn, name, itemId) {
-            const size = btn.getAttribute('data-size') || "طلب"; const price = btn.getAttribute('data-price'] || "0"; const img = `${IMAGES_PATH}${name}.jpg`;
+            const size = btn.getAttribute('data-size') || "طلب"; const price = btn.getAttribute('data-price') || "0"; const img = `${IMAGES_PATH}${name}.jpg`;
             cart.push({name, price, size, img}); 
             
             btn.classList.add('success-state'); 
@@ -989,3 +1018,4 @@
     </script>
 </body>
 </html>
+
