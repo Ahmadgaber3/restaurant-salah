@@ -394,7 +394,6 @@
             padding: 10px 12px 4px 12px; 
         }
 
-        /* تم إرجاع الإعدادات الافتراضية هنا لتظهر الصور بشكلها الطبيعي وبدون اللوجو البديل المجبر */
         .card-large-image-wrapper .item-img-large {
             width: 100%;
             display: block;
@@ -443,6 +442,23 @@
         .food-card-large .btn-wrapper {
             order: 2;
         }
+
+        /* تأثير الأنيميشن عند طيران الـ item */
+        .fly-item {
+            position: fixed;
+            font-size: 1.5rem;
+            z-index: 9999;
+            pointer-events: none;
+            transition: left 0.6s cubic-bezier(0.25, 1, 0.5, 1), top 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s ease, opacity 0.6s ease;
+        }
+
+        /* أنيميشن اهتزاز زر السلة */
+        @keyframes shake {
+            0%, 100% { transform: scale(1); }
+            20%, 60% { transform: scale(1.1) rotate(-6deg); }
+            40%, 80% { transform: scale(1.1) rotate(6deg); }
+        }
+        .cart-trigger.shake { animation: shake 0.5s ease-in-out; }
 
         /* =================================================================================== */
 
@@ -638,13 +654,16 @@
 
             loadMenu();
 
+            // تسجيل الـ Service Worker من المسار الحالي الصحيح
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('sw.js')
+                navigator.serviceWorker.register('./sw.js')
                 .then(reg => console.log('تم تسجيل الـ Service Worker بنجاح!', reg))
                 .catch(err => console.log('فشل تسجيل الـ Service Worker:', err));
             }
 
+            // لقط حدث التثبيت الرسمي بشكل آمن لمنع التجاهل من المتصفح
             window.addEventListener('beforeinstallprompt', (e) => {
+                console.log('حدث التثبيت التلقائي جاهز للتفعيل.');
                 e.preventDefault();
                 deferredPrompt = e;
                 const bannerPopup = document.getElementById('automaticInstallBanner');
@@ -656,12 +675,15 @@
             const actionInstallBtn = document.getElementById('actionInstallBtn');
             if (actionInstallBtn) {
                 actionInstallBtn.addEventListener('click', async () => {
-                    if (!deferredPrompt) return;
+                    if (!deferredPrompt) {
+                        console.log('طلب التثبيت غير متاح، قد يكون التطبيق مثبتاً بالفعل.');
+                        return;
+                    }
+                    // إطلاق نافذة تثبيت الأبليكشن الرسمية للمستخدم
                     deferredPrompt.prompt(); 
                     const { outcome } = await deferredPrompt.userChoice;
-                    if (outcome === 'accepted') {
-                        console.log('وافق المستخدم على التثبيت.');
-                    }
+                    console.log(`استجابة المستخدم للتثبيت: ${outcome}`);
+                    
                     deferredPrompt = null;
                     const bannerPopup = document.getElementById('automaticInstallBanner');
                     if (bannerPopup) bannerPopup.classList.remove('show-banner');
@@ -677,7 +699,7 @@
             }
 
             window.addEventListener('appinstalled', () => {
-                console.log('تم التثبيت بالفعل بنجاح.');
+                console.log('تم تثبيت تطبيق كباب صلاح بنجاح وتحويله لأبليكشن!');
                 const bannerPopup = document.getElementById('automaticInstallBanner');
                 if (bannerPopup) bannerPopup.classList.remove('show-banner');
                 deferredPrompt = null;
@@ -848,7 +870,6 @@
                     return `
                     <div class="food-card-large" id="card-${item.id}">
                         <div class="card-large-image-wrapper">
-                            <!-- تم إرجاع الإعدادات الافتراضية هنا لتظهر الصور بشكلها الطبيعي وبدون اللوجو البديل المجبر -->
                             <img class="item-img-large" src="${IMAGES_PATH}${item.name}.jpg" onerror="this.onerror=null; this.src='${IMAGES_PATH}default.jpg';">
                         </div>
                         <div class="card-large-details">
@@ -912,7 +933,7 @@
         }
 
         function triggerAddToCart(e, btn, name, itemId) {
-            const size = btn.getAttribute('data-size') || "طلب"; const price = btn.getAttribute('data-price') || "0"; const img = `${IMAGES_PATH}${name}.jpg`;
+            const size = btn.getAttribute('data-size') || "طلب"; const price = btn.getAttribute('data-price'] || "0"; const img = `${IMAGES_PATH}${name}.jpg`;
             cart.push({name, price, size, img}); 
             
             btn.classList.add('success-state'); 
@@ -923,7 +944,7 @@
                 btn.innerText = "اطلب"; 
             }, 1500);
 
-            const fly = document.createElement('div'); fly.className = 'fly-item'; fly.innerHTML = '🍕';
+            const fly = document.createElement('div'); fly.className = 'fly-item'; fly.innerHTML = '🥩';
             fly.style.left = e.clientX + 'px'; fly.style.top = e.clientY + 'px'; document.body.appendChild(fly);
             const cartBtn = document.getElementById('cartBtn');
             if(cartBtn) {
