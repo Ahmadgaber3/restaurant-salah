@@ -132,7 +132,6 @@
             pointer-events: auto;
         }
         
-        /* معالجة طبقات الهيدر لحل مشكلة الضغط على الأزرار */
         .header-left-actions { 
             position: absolute; 
             left: 16px; 
@@ -503,8 +502,21 @@
         .dev-credit { font-size: 0.72rem; color: var(--desc-text); font-weight: 700; }
         .dev-credit a { color: var(--brand-orange); text-decoration: none; display: block; margin-top: 3px; }
 
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9990; display: none; justify-content: center; align-items: flex-end; backdrop-filter: blur(4px); }
-        .modal-content { background: var(--white); width: 100%; max-width: 480px; padding: 16px 20px; border-radius: 22px 22px 0 0; max-height: 82vh; overflow-y: auto; color: var(--main-text); box-shadow: 0 -5px 25px rgba(0,0,0,0.25); z-index: 9995; }
+        /* تغيير اسم كلاس المودال لتجنب التعارض مع DaisyUI CSS */
+        .custom-modal { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.6); 
+            z-index: 99999 !important; 
+            display: none; 
+            justify-content: center; 
+            align-items: flex-end; 
+            backdrop-filter: blur(4px); 
+        }
+        .modal-content { background: var(--white); width: 100%; max-width: 480px; padding: 16px 20px; border-radius: 22px 22px 0 0; max-height: 85vh; overflow-y: auto; color: var(--main-text); box-shadow: 0 -5px 25px rgba(0,0,0,0.25); position: relative; z-index: 100000 !important; }
 
         .cart-item-card { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: rgba(100, 116, 139, 0.06); border-radius: 12px; margin-bottom: 8px; }
         .cart-item-img { width: 42px; height: 42px; border-radius: 8px; object-fit: cover; }
@@ -569,7 +581,7 @@
             </div>
 
             <div class="header-left-actions">
-                <button class="cart-trigger" onclick="toggleCart(true)" id="cartBtn">
+                <button class="cart-trigger" onclick="toggleCart(true)" id="cartBtn" style="cursor: pointer;">
                     <span class="badge" id="cartBadge">0</span>
                     <span>🛒</span>
                 </button>
@@ -646,10 +658,14 @@
         </div>
     </footer>
 
-    <!-- نافذة السلة والطلب (مدمج بها Fieldset من DaisyUI) -->
-    <div class="modal" id="cartModal" onclick="if(event.target==this) toggleCart(false)">
+    <!-- نافذة السلة والطلب من خلال custom-modal -->
+    <div class="custom-modal" id="cartModal" onclick="if(event.target==this) toggleCart(false)">
         <div class="modal-content">
-            <h3 style="margin-bottom: 12px; font-size: 1rem; font-weight: 800;">طلباتك</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="font-size: 1rem; font-weight: 800; margin: 0;">طلباتك 🛒</h3>
+                <button onclick="toggleCart(false)" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; font-weight: bold; color: var(--desc-text);">✕</button>
+            </div>
+            
             <div id="cartItemsList"></div>
             
             <div style="margin: 12px 0; padding: 10px 14px; background: rgba(230, 81, 0, 0.05); border-radius: 12px; display: flex; flex-direction: column; gap: 6px; font-size: 0.8rem;">
@@ -1054,9 +1070,9 @@
             if(!modal) return; 
             if (show) { 
                 updateCart();
-                modal.style.display = 'flex'; 
+                modal.style.setProperty('display', 'flex', 'important');
             } else { 
-                modal.style.display = 'none'; 
+                modal.style.setProperty('display', 'none', 'important');
             } 
         }
 
