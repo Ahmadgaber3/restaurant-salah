@@ -14,6 +14,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
+    <!-- مكتبات Tailwind CSS & DaisyUI للاستلايت والـ Carousel الجاهز -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+
     <style>
         /* الألوان الرسمية المحدثة بالتباين المطلق */
         :root {
@@ -502,7 +506,7 @@
         .cart-item-name { font-weight: 700; font-size: 0.8rem; } 
         .cart-item-size { font-size: 0.65rem; color: var(--desc-text); display: block; }
         .cart-item-price { color: var(--brand-orange); font-weight: 800; font-size: 0.75rem; display: block; }
-        .remove-btn { color: #ff4d4d; font-weight: 800; font-size: 0.7 r em; cursor: pointer; padding: 4px; }
+        .remove-btn { color: #ff4d4d; font-weight: 800; font-size: 0.7rem; cursor: pointer; padding: 4px; }
         
         .user-fields input { background: var(--input-bg); border: 1px solid transparent; padding: 10px 12px; border-radius: 10px; width: 100%; margin-bottom: 8px; color: var(--main-text); text-align: right; font-size: 0.8rem; }
         .user-fields input::placeholder { color: var(--desc-text); opacity: 0.8; }
@@ -569,6 +573,44 @@
                 </button>
             </div>
         </header>
+
+        <!-- ================= سلايدر العروض والبنرات الجاهز (DaisyUI Carousel) ================= -->
+        <div class="px-4 py-3 max-w-[600px] mx-auto">
+            <div class="carousel w-full rounded-2xl shadow-md overflow-hidden aspect-[16/7]">
+                <!-- العرض الأول -->
+                <div id="slide1" class="carousel-item relative w-full">
+                    <img src="./images/offer1.jpg" onerror="this.onerror=null; this.src='https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp';" class="w-full object-cover" />
+                    <div class="absolute left-3 right-3 top-1/2 flex -translate-y-1/2 transform justify-between">
+                        <a href="#slide4" class="btn btn-circle btn-xs sm:btn-sm bg-black/40 text-white border-none">❮</a>
+                        <a href="#slide2" class="btn btn-circle btn-xs sm:btn-sm bg-black/40 text-white border-none">❯</a>
+                    </div>
+                </div>
+                <!-- العرض الثاني -->
+                <div id="slide2" class="carousel-item relative w-full">
+                    <img src="./images/offer2.jpg" onerror="this.onerror=null; this.src='https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp';" class="w-full object-cover" />
+                    <div class="absolute left-3 right-3 top-1/2 flex -translate-y-1/2 transform justify-between">
+                        <a href="#slide1" class="btn btn-circle btn-xs sm:btn-sm bg-black/40 text-white border-none">❮</a>
+                        <a href="#slide3" class="btn btn-circle btn-xs sm:btn-sm bg-black/40 text-white border-none">❯</a>
+                    </div>
+                </div>
+                <!-- العرض الثالث -->
+                <div id="slide3" class="carousel-item relative w-full">
+                    <img src="./images/offer3.jpg" onerror="this.onerror=null; this.src='https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.webp';" class="w-full object-cover" />
+                    <div class="absolute left-3 right-3 top-1/2 flex -translate-y-1/2 transform justify-between">
+                        <a href="#slide2" class="btn btn-circle btn-xs sm:btn-sm bg-black/40 text-white border-none">❮</a>
+                        <a href="#slide4" class="btn btn-circle btn-xs sm:btn-sm bg-black/40 text-white border-none">❯</a>
+                    </div>
+                </div>
+                <!-- العرض الرابع -->
+                <div id="slide4" class="carousel-item relative w-full">
+                    <img src="./images/offer4.jpg" onerror="this.onerror=null; this.src='https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.webp';" class="w-full object-cover" />
+                    <div class="absolute left-3 right-3 top-1/2 flex -translate-y-1/2 transform justify-between">
+                        <a href="#slide3" class="btn btn-circle btn-xs sm:btn-sm bg-black/40 text-white border-none">❮</a>
+                        <a href="#slide1" class="btn btn-circle btn-xs sm:btn-sm bg-black/40 text-white border-none">❯</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="category-nav" id="catNav"></div>
     </div>
