@@ -626,7 +626,7 @@
         </div>
     </footer>
 
-    <!-- نافذة السلة والطلب المُحسنة بستيل Fieldset -->
+    <!-- نافذة السلة والطلب (مدمج بها Fieldset من DaisyUI) -->
     <div class="modal" id="cartModal" onclick="if(event.target==this) toggleCart(false)">
         <div class="modal-content">
             <h3 style="margin-bottom: 12px; font-size: 1rem; font-weight: 800;">طلباتك</h3>
@@ -644,9 +644,9 @@
                 </div>
             </div>
 
-            <!-- تطبيق Fieldset تجمع البيانات وتنظمها بأناقة -->
-            <fieldset class="fieldset w-full bg-base-200 p-3 rounded-2xl border border-base-300 mb-3 text-right">
-                <legend class="fieldset-legend font-bold text-xs px-2 text-orange-600">📋 بيانات التوصيل</legend>
+            <!-- Fieldset من DaisyUI المعتمد لتنسيق واجهة البيانات -->
+            <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-4 w-full mb-3 text-right">
+                <legend class="fieldset-legend font-bold text-xs text-orange-600 px-1">📋 بيانات التوصيل والطلب</legend>
 
                 <div class="order-type-container mb-3">
                     <span class="order-type-title">🛵 نوع الطلب:</span>
@@ -656,19 +656,20 @@
                     </div>
                 </div>
 
-                <label class="fieldset-label text-xs font-bold mb-1 block">الاسم بالكامل</label>
+                <label class="label text-xs font-bold mb-1 block">الاسم بالكامل</label>
                 <input type="text" id="uName" class="input input-sm input-bordered w-full mb-2" placeholder="اكتب اسمك">
 
-                <label class="fieldset-label text-xs font-bold mb-1 block">رقم الموبايل</label>
+                <label class="label text-xs font-bold mb-1 block">رقم الموبايل</label>
                 <input type="tel" id="uPhone" class="input input-sm input-bordered w-full mb-2" placeholder="01xxxxxxxxx">
 
                 <div id="addressGroup">
-                    <label class="fieldset-label text-xs font-bold mb-1 block">العنوان بالتفصيل</label>
+                    <label class="label text-xs font-bold mb-1 block">العنوان بالتفصيل</label>
                     <input type="text" id="uAddr" class="input input-sm input-bordered w-full" placeholder="الشارع / الدور / الشقة">
+                    <p class="label text-[10px] text-gray-500 mt-1">تأكد من كتابة العنوان بدقة لتوصيل أسرع</p>
                 </div>
             </fieldset>
 
-            <button class="submit-btn" onclick="sendToWA()">تأكيد الطلب</button>
+            <button class="submit-btn" onclick="sendToWA()">تأكيد الطلب عبر واتساب</button>
         </div>
     </div>
 
@@ -1008,23 +1009,40 @@
         function updateCart() {
             const badge = document.getElementById('cartBadge'); if(badge) { badge.innerText = cart.length; badge.classList.toggle('show', cart.length > 0); }
             let subtotal = 0; const container = document.getElementById('cartItemsList');
-            container.innerHTML = cart.map((item, idx) => {
-                subtotal += parseInt(item.price, 10) || 0;
-                return `<div class="cart-item-card"><img src="${item.img}" class="cart-item-img" onerror="this.onerror=null; this.src='${IMAGES_PATH}default.jpg';"><div class="cart-item-info"><span class="cart-item-name">${item.name}</span><span class="cart-item-size">${item.size !== 'طلب' ? `الحجم: ${item.size}` : 'الحجم: افتراضي'}</span><span class="cart-item-price">${item.price} ج.م</span></div><span class="remove-btn" onclick="removeFromCart(${idx})">حذف</span></div>`;
-            }).join('');
+            
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color: var(--desc-text); padding: 15px; font-size: 0.85rem;">السلة فارغة حالياً</p>';
+            } else {
+                container.innerHTML = cart.map((item, idx) => {
+                    subtotal += parseInt(item.price, 10) || 0;
+                    return `<div class="cart-item-card"><img src="${item.img}" class="cart-item-img" onerror="this.onerror=null; this.src='${IMAGES_PATH}default.jpg';"><div class="cart-item-info"><span class="cart-item-name">${item.name}</span><span class="cart-item-size">${item.size !== 'طلب' ? `الحجم: ${item.size}` : 'الحجم: افتراضي'}</span><span class="cart-item-price">${item.price} ج.م</span></div><span class="remove-btn" onclick="removeFromCart(${idx})">حذف</span></div>`;
+                }).join('');
+            }
             
             currentTotal = subtotal;
             document.getElementById('subTotalAmount').innerText = `${subtotal} ج.م`;
             document.getElementById('totalAmount').innerText = `${currentTotal} ج.م`;
         }
 
-        function removeFromCart(idx) { cart.splice(idx, 1); updateCart(); if(cart.length === 0) toggleCart(false); }
-        function toggleCart(s) { const modal = document.getElementById('cartModal'); if(!modal) return; if (s) { modal.style.display = 'flex'; history.pushState({ cartOpen: open }, ""); } else { modal.style.display = 'none'; } }
-        window.addEventListener('popstate', function () { const modal = document.getElementById('cartModal'); if (modal && modal.style.display === 'flex') { modal.style.display = 'none'; } });
+        function removeFromCart(idx) { 
+            cart.splice(idx, 1); 
+            updateCart(); 
+        }
+
+        function toggleCart(show) { 
+            const modal = document.getElementById('cartModal'); 
+            if(!modal) return; 
+            if (show) { 
+                updateCart();
+                modal.style.display = 'flex'; 
+            } else { 
+                modal.style.display = 'none'; 
+            } 
+        }
 
         function sendToWA() {
             const n = document.getElementById('uName').value.trim(), p = document.getElementById('uPhone').value.trim(), a = document.getElementById('uAddr').value.trim();
-            if(!n || !p || cart.length === 0) { alert("برجاء إدخال اسمك ورقم تليفونك أولاً لتأكيد طلبك."); return; }
+            if(!n || !p || cart.length === 0) { alert("برجاء إدخال اسمك ورقم تليفونك وتحديد الأطباق أولاً."); return; }
             if (selectedOrderType === "دليفري" && !a) { alert("برجاء كتابة عنوانك بالتفصيل."); return; }
 
             let msg = `*طلب جديد - كباب صلاح*\n──────────────\n👤 *الاسم:* ${n}\n📱 *الموبايل:* ${p}\n🛵 *نوع الطلب:* ${selectedOrderType}\n`;
