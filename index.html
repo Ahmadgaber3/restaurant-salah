@@ -14,15 +14,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- مكتبات Tailwind CSS & DaisyUI للاستلايت والـ Carousel الجاهز -->
+    <!-- مكتبات Tailwind CSS & DaisyUI -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
 
     <style>
-        /* الألوان الرسمية المحدثة بالتباين المطلق */
         :root {
-            --bg: #f5f2eb; /* خلفية كريمي فخمة بين الأبيض والبيج */
-            --card-bg: #ffffff; /* الكروت باللون الأبيض الصافي ليحدث فرق درجات بارز وممتاز */
+            --bg: #f5f2eb;
+            --card-bg: #ffffff;
             --main-text: #1e293b; 
             --desc-text: #64748b; 
             --brand-orange: #e65100; 
@@ -37,7 +36,6 @@
             --input-bg: #f1f5f9;
         }
 
-        /* الوضع الليلي المتناسق المباشر المضمون 100% */
         [data-theme="dark"], body[data-theme="dark"] {
             --bg: #0f172a !important; 
             --card-bg: #1e293b !important; 
@@ -54,12 +52,10 @@
             --success-bg: rgba(46, 204, 113, 0.2) !important;
         }
 
-        /* تأثير انتقالي ناعم جداً عند عكس الإضاءة */
         body, header, main, footer, div, span, button, input {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* تطبيق متغيرات الألوان على العناصر الهامة بالوضع الليلي */
         [data-theme="dark"] .sticky-wrapper { background: var(--header-bg); }
         [data-theme="dark"] .category-nav { background: var(--card-bg); border-bottom-color: var(--border-color); }
         [data-theme="dark"] .restaurant-footer { background: var(--card-bg); border-top-color: var(--border-color); }
@@ -83,7 +79,6 @@
             overflow-x: hidden; 
         }
 
-        /* ================= شاشة التحميل ================= */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #f5f2eb; 
@@ -121,7 +116,6 @@
         .loading-bar span { display: block; width: 0; height: 100%; background: linear-gradient(90deg, var(--brand-orange) 0%, #f97316 100%); box-shadow: 0 0 8px var(--brand-orange); border-radius: 10px; }
         .splash-hidden { transform: translateY(-100%); pointer-events: none; }
 
-        /* ================= الهيدر الداخلي ================= */
         .sticky-wrapper { position: sticky; top: 0; z-index: 1000; background: var(--header-bg); box-shadow: 0 1px 10px rgba(0,0,0,0.03); }
         header { display: flex; flex-direction: column; align-items: center; padding: 6px 0 4px 0; position: relative; }
         .header-top { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; margin-top: 4px; }
@@ -157,7 +151,6 @@
         .badge { position: absolute; top: -3px; right: -3px; background: var(--brand-orange); color: #ffffff; font-size: 8px; font-weight: 800; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--white); transform: scale(0); }
         .badge.show { transform: scale(1); }
 
-        /* بنر العنوان */
         .header-address-bar {
             font-size: 0.78rem; 
             font-weight: 700;
@@ -175,7 +168,6 @@
             text-align: center;
         }
 
-        /* ================= ستايل بانر التثبيت المنبثق التلقائي ================= */
         .install-banner-popup {
             position: fixed;
             bottom: 20px;
@@ -210,7 +202,6 @@
         .banner-btn-install { background: var(--brand-orange); color: #ffffff; border: none; padding: 8px 16px; border-radius: 10px; font-size: 0.8rem; font-weight: 800; cursor: pointer; white-space: nowrap; box-shadow: 0 4px 10px rgba(230, 81, 0, 0.2); }
         .banner-btn-close { background: transparent; color: var(--desc-text); border: none; font-size: 1.1rem; cursor: pointer; padding: 4px; font-weight: bold; }
 
-        /* شريط الأقسام */
         .category-nav { display: flex; overflow-x: auto; white-space: nowrap; padding: 14px 16px; gap: 16px; scrollbar-width: none; background: var(--white); border-bottom: 1px solid var(--border-color); }
         .category-nav::-webkit-scrollbar { display: none; }
         .cat-item { display: flex; flex-direction: column; align-items: center; min-width: 76px; cursor: pointer; }
@@ -221,7 +212,6 @@
         .cat-item span { font-size: 0.76rem; font-weight: 800; color: var(--desc-text); margin-top: 6px; } 
         .cat-item.active span { color: var(--main-text); font-weight: 900; }
 
-        /* ================= كروت الأصناف الأساسية ================= */
         .menu-list { 
             display: flex;
             flex-direction: column;
@@ -259,7 +249,6 @@
             font-size: 0.72rem;
         }
 
-        /* 1. كارت الصنف الصغير */
         .food-card { 
             background: var(--white); 
             border-radius: 18px; 
@@ -371,7 +360,6 @@
         .price-num { font-weight: 900; }
         .price-txt { font-size: 0.65rem; font-weight: 800; color: var(--brand-orange); }
 
-        /* ================= 2. كروت الأصناف الكبيرة ================= */
         .food-card-large {
             background: var(--white);
             border-radius: 16px;
@@ -450,7 +438,6 @@
         }
         .cart-trigger.shake { animation: shake 0.5s ease-in-out; }
 
-        /* ================= خانة تثبيت التطبيق السفلية ================= */
         .footer-install-box {
             background: linear-gradient(135deg, var(--brand-orange) 0%, #f97316 100%);
             border-radius: 16px;
@@ -464,7 +451,7 @@
             box-shadow: 0 6px 20px rgba(230, 81, 0, 0.2);
             color: #ffffff;
             text-align: right;
-            display: none; /* تظهر فقط عند إتاحة التثبيت */
+            display: none; 
         }
         .footer-install-info { display: flex; align-items: center; gap: 10px; }
         .footer-install-logo { width: 44px; height: 44px; background-image: url('./images/logooo.png'); background-size: contain; background-repeat: no-repeat; background-position: center; border-radius: 8px; background-color: #ffffff; }
@@ -496,7 +483,6 @@
         .dev-credit { font-size: 0.72rem; color: var(--desc-text); font-weight: 700; }
         .dev-credit a { color: var(--brand-orange); text-decoration: none; display: block; margin-top: 3px; }
 
-        /* السلة والـ Modals */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; justify-content: center; align-items: flex-end; backdrop-filter: blur(4px); }
         .modal-content { background: var(--white); width: 100%; max-width: 480px; padding: 16px 20px; border-radius: 22px 22px 0 0; max-height: 82vh; overflow-y: auto; color: var(--main-text); box-shadow: 0 -5px 25px rgba(0,0,0,0.25); }
 
@@ -507,10 +493,6 @@
         .cart-item-size { font-size: 0.65rem; color: var(--desc-text); display: block; }
         .cart-item-price { color: var(--brand-orange); font-weight: 800; font-size: 0.75rem; display: block; }
         .remove-btn { color: #ff4d4d; font-weight: 800; font-size: 0.7rem; cursor: pointer; padding: 4px; }
-        
-        .user-fields input { background: var(--input-bg); border: 1px solid transparent; padding: 10px 12px; border-radius: 10px; width: 100%; margin-bottom: 8px; color: var(--main-text); text-align: right; font-size: 0.8rem; }
-        .user-fields input::placeholder { color: var(--desc-text); opacity: 0.8; }
-        .user-fields input:focus { border-color: var(--brand-orange); outline: none; }
         
         .order-type-container { margin-bottom: 12px; text-align: right; }
         .order-type-title { font-size: 0.72rem; font-weight: 800; color: var(--desc-text); display: block; margin-bottom: 6px; }
@@ -534,7 +516,7 @@
         </div>
     </div>
 
-    <!-- ================= بانر التثبيت المنبثق التلقائي ================= -->
+    <!-- بانر التثبيت المنبثق -->
     <div class="install-banner-popup" id="automaticInstallBanner">
         <div class="banner-left">
             <div class="banner-logo-mini"></div>
@@ -574,10 +556,9 @@
             </div>
         </header>
 
-        <!-- ================= سلايدر العروض والبنرات الجاهز (DaisyUI Carousel) ================= -->
+        <!-- سلايدر العروض الجاهز (DaisyUI Carousel) -->
         <div class="px-4 py-3 max-w-[600px] mx-auto">
             <div class="carousel w-full rounded-2xl shadow-md overflow-hidden aspect-[16/7]">
-                <!-- العرض الأول -->
                 <div id="slide1" class="carousel-item relative w-full">
                     <img src="./images/offer1.jpg" onerror="this.onerror=null; this.src='https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp';" class="w-full object-cover" />
                     <div class="absolute left-3 right-3 top-1/2 flex -translate-y-1/2 transform justify-between">
@@ -585,7 +566,6 @@
                         <a href="#slide2" class="btn btn-circle btn-xs sm:btn-sm bg-black/40 text-white border-none">❯</a>
                     </div>
                 </div>
-                <!-- العرض الثاني -->
                 <div id="slide2" class="carousel-item relative w-full">
                     <img src="./images/offer2.jpg" onerror="this.onerror=null; this.src='https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp';" class="w-full object-cover" />
                     <div class="absolute left-3 right-3 top-1/2 flex -translate-y-1/2 transform justify-between">
@@ -593,7 +573,6 @@
                         <a href="#slide3" class="btn btn-circle btn-xs sm:btn-sm bg-black/40 text-white border-none">❯</a>
                     </div>
                 </div>
-                <!-- العرض الثالث -->
                 <div id="slide3" class="carousel-item relative w-full">
                     <img src="./images/offer3.jpg" onerror="this.onerror=null; this.src='https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.webp';" class="w-full object-cover" />
                     <div class="absolute left-3 right-3 top-1/2 flex -translate-y-1/2 transform justify-between">
@@ -601,7 +580,6 @@
                         <a href="#slide4" class="btn btn-circle btn-xs sm:btn-sm bg-black/40 text-white border-none">❯</a>
                     </div>
                 </div>
-                <!-- العرض الرابع -->
                 <div id="slide4" class="carousel-item relative w-full">
                     <img src="./images/offer4.jpg" onerror="this.onerror=null; this.src='https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.webp';" class="w-full object-cover" />
                     <div class="absolute left-3 right-3 top-1/2 flex -translate-y-1/2 transform justify-between">
@@ -630,7 +608,6 @@
             <a href="tel:0225926227">0225926227</a>
         </div>
 
-        <!-- خانة تثبيت التطبيق السفلية -->
         <div class="footer-install-box" id="footerInstallContainer">
             <div class="footer-install-info">
                 <div class="footer-install-logo"></div>
@@ -649,6 +626,7 @@
         </div>
     </footer>
 
+    <!-- نافذة السلة والطلب المُحسنة بستيل Fieldset -->
     <div class="modal" id="cartModal" onclick="if(event.target==this) toggleCart(false)">
         <div class="modal-content">
             <h3 style="margin-bottom: 12px; font-size: 1rem; font-weight: 800;">طلباتك</h3>
@@ -666,19 +644,30 @@
                 </div>
             </div>
 
-            <div class="user-fields">
-                <div class="order-type-container">
+            <!-- تطبيق Fieldset تجمع البيانات وتنظمها بأناقة -->
+            <fieldset class="fieldset w-full bg-base-200 p-3 rounded-2xl border border-base-300 mb-3 text-right">
+                <legend class="fieldset-legend font-bold text-xs px-2 text-orange-600">📋 بيانات التوصيل</legend>
+
+                <div class="order-type-container mb-3">
                     <span class="order-type-title">🛵 نوع الطلب:</span>
                     <div class="order-type-toggle">
                         <button type="button" class="type-btn active" id="btnDelivery" onclick="setOrderType('دليفري')">🛵 دليفري</button>
                         <button type="button" class="type-btn" id="btnTakeaway" onclick="setOrderType('تيك أواي')">🛍️ تيك أواي</button>
                     </div>
                 </div>
-                
-                <input type="text" id="uName" placeholder="الاسم بالكامل">
-                <input type="tel" id="uPhone" placeholder="رقم الموبايل">
-                <input type="text" id="uAddr" placeholder="العنوان بالتفصيل (الشارع / الدور / الشقة)">
-            </div>
+
+                <label class="fieldset-label text-xs font-bold mb-1 block">الاسم بالكامل</label>
+                <input type="text" id="uName" class="input input-sm input-bordered w-full mb-2" placeholder="اكتب اسمك">
+
+                <label class="fieldset-label text-xs font-bold mb-1 block">رقم الموبايل</label>
+                <input type="tel" id="uPhone" class="input input-sm input-bordered w-full mb-2" placeholder="01xxxxxxxxx">
+
+                <div id="addressGroup">
+                    <label class="fieldset-label text-xs font-bold mb-1 block">العنوان بالتفصيل</label>
+                    <input type="text" id="uAddr" class="input input-sm input-bordered w-full" placeholder="الشارع / الدور / الشقة">
+                </div>
+            </fieldset>
+
             <button class="submit-btn" onclick="sendToWA()">تأكيد الطلب</button>
         </div>
     </div>
@@ -709,7 +698,6 @@
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeUI(savedTheme);
 
-            // تحميل المنيو أولاً لحصر الصور الأساسية قبل إخفاء الـ Splash
             loadMenu();
 
             if ('serviceWorker' in navigator) {
@@ -756,14 +744,14 @@
             selectedOrderType = type;
             const btnDel = document.getElementById('btnDelivery');
             const btnTak = document.getElementById('btnTakeaway');
-            const addrField = document.getElementById('uAddr');
+            const addrGroup = document.getElementById('addressGroup');
 
             if (type === 'دليفري') {
                 btnDel.classList.add('active'); btnTak.classList.remove('active');
-                if (addrField) addrField.style.display = 'block';
+                if (addrGroup) addrGroup.style.display = 'block';
             } else {
                 btnTak.classList.add('active'); btnDel.classList.remove('active');
-                if (addrField) addrField.style.display = 'none';
+                if (addrGroup) addrGroup.style.display = 'none';
             }
             updateCart();
         }
@@ -792,7 +780,6 @@
             if (progressEl) progressEl.style.width = `${percentage}%`;
         }
 
-        // دالة الـ Preload للصور الأساسية مع تحديث حقيقي للعداد المئوي
         function preloadCriticalImages(imageUrls, callback) {
             if (imageUrls.length === 0) { updateProgressUI(100); callback(); return; }
             let loadedCount = 0; 
@@ -804,17 +791,16 @@
                 
                 const onImageEvent = () => {
                     loadedCount++;
-                    // حساب النسبة الحقيقية بناءً على الصور المحملة فعلياً
                     const percentage = Math.floor((loadedCount / totalImages) * 100);
                     updateProgressUI(percentage);
                     
                     if (loadedCount === totalImages) {
-                        setTimeout(callback, 400); // إعطاء مهلة بسيطة لراحة العين
+                        setTimeout(callback, 400);
                     }
                 };
 
                 img.onload = onImageEvent;
-                img.onerror = onImageEvent; // في حال كانت الصورة معطوبة لا يعلق العداد
+                img.onerror = onImageEvent;
             });
         }
 
@@ -857,24 +843,17 @@
                 }).filter(Boolean);
 
                 if(menuData.length > 0) {
-                    // حصر التصنيفات الفريدة
                     const categories = [...new Set(menuData.map(item => item.category))];
-                    const defaultCategory = categories[0]; // أول قسم هيفتح تلقائياً
+                    const defaultCategory = categories[0];
 
-                    // تجهيز قائمة الصور الحرجة (اللوجو + صور كل الأقسام + صور أصناف القسم الأول فقط)
                     const criticalImages = ['./images/logooo.png'];
-                    
-                    // 1. إضافة صور شريط الأقسام العلوي
                     categories.forEach(cat => criticalImages.push(`${IMAGES_PATH}${cat}.jpg`));
-                    
-                    // 2. إضافة صور أصناف أول قسم فقط ليراها العميل كاش فوراً
                     menuData.forEach(item => {
                         if (item.category === defaultCategory) {
                             criticalImages.push(`${IMAGES_PATH}${item.name}.jpg`);
                         }
                     });
 
-                    // تشغيل التحميل المسبق للصور الحرجة وربطه بالعداد الحقيقي
                     preloadCriticalImages(criticalImages, () => {
                         renderNav();
                         const splash = document.getElementById('splash-screen');
