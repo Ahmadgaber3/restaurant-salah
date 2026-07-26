@@ -118,7 +118,7 @@
 
         .sticky-wrapper { position: sticky; top: 0; z-index: 1000; background: var(--header-bg); box-shadow: 0 1px 10px rgba(0,0,0,0.03); }
         header { display: flex; flex-direction: column; align-items: center; padding: 6px 0 4px 0; position: relative; }
-        .header-top { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; margin-top: 4px; }
+        .header-top { width: 100%; display: flex; align-items: center; justify-content: center; position: relative; margin-top: 4px; pointer-events: none; }
         
         .header-logo-final { 
             width: 120px; 
@@ -129,10 +129,28 @@
             background-repeat: no-repeat;
             border-radius: 10px;
             box-shadow: 0 4px 14px rgba(30, 41, 59, 0.05);
+            pointer-events: auto;
         }
         
-        .header-left-actions { position: absolute; left: 16px; top: 6px; display: flex; align-items: center; }
-        .header-right-actions { position: absolute; right: 16px; top: 6px; display: flex; align-items: center; }
+        /* معالجة طبقات الهيدر لحل مشكلة الضغط على الأزرار */
+        .header-left-actions { 
+            position: absolute; 
+            left: 16px; 
+            top: 6px; 
+            display: flex; 
+            align-items: center; 
+            z-index: 1005; 
+            pointer-events: auto;
+        }
+        .header-right-actions { 
+            position: absolute; 
+            right: 16px; 
+            top: 6px; 
+            display: flex; 
+            align-items: center; 
+            z-index: 1005; 
+            pointer-events: auto;
+        }
 
         .cart-trigger, .theme-trigger { 
             background: var(--button-gray); 
@@ -147,8 +165,10 @@
             font-size: 1.18rem; 
             border: none; 
             position: relative; 
+            z-index: 1006;
+            pointer-events: auto !important;
         }
-        .badge { position: absolute; top: -3px; right: -3px; background: var(--brand-orange); color: #ffffff; font-size: 8px; font-weight: 800; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--white); transform: scale(0); }
+        .badge { position: absolute; top: -3px; right: -3px; background: var(--brand-orange); color: #ffffff; font-size: 8px; font-weight: 800; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--white); transform: scale(0); pointer-events: none; }
         .badge.show { transform: scale(1); }
 
         .header-address-bar {
@@ -483,8 +503,8 @@
         .dev-credit { font-size: 0.72rem; color: var(--desc-text); font-weight: 700; }
         .dev-credit a { color: var(--brand-orange); text-decoration: none; display: block; margin-top: 3px; }
 
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; display: none; justify-content: center; align-items: flex-end; backdrop-filter: blur(4px); }
-        .modal-content { background: var(--white); width: 100%; max-width: 480px; padding: 16px 20px; border-radius: 22px 22px 0 0; max-height: 82vh; overflow-y: auto; color: var(--main-text); box-shadow: 0 -5px 25px rgba(0,0,0,0.25); }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9990; display: none; justify-content: center; align-items: flex-end; backdrop-filter: blur(4px); }
+        .modal-content { background: var(--white); width: 100%; max-width: 480px; padding: 16px 20px; border-radius: 22px 22px 0 0; max-height: 82vh; overflow-y: auto; color: var(--main-text); box-shadow: 0 -5px 25px rgba(0,0,0,0.25); z-index: 9995; }
 
         .cart-item-card { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: rgba(100, 116, 139, 0.06); border-radius: 12px; margin-bottom: 8px; }
         .cart-item-img { width: 42px; height: 42px; border-radius: 8px; object-fit: cover; }
